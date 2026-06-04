@@ -2,14 +2,22 @@ import { createContext, useContext, useState } from 'react'
 
 
 const bulbContext = createContext();
+
+function ContextProvider({children}){
+  const [bulb, setBulb]=useState(true);
+
+    return <bulbContext.Provider value ={{bulb :bulb , setBulb: setBulb}}>
+        {children}                       
+    </bulbContext.Provider>
+}
+
 function App() {
 
-  const [bulb, setBulb]=useState(true);
   return (
     <>
-    <bulbContext.Provider value ={{bulb :bulb , setBulb: setBulb}}>
-         <LightBulb />                          {/* wrapping this will pass this context to all  */}
-    </bulbContext.Provider>
+      <ContextProvider>
+        <LightBulb/>
+      </ContextProvider>
     </>
   )
 }
@@ -45,14 +53,5 @@ function ToggleBulbState(){
     <button onClick ={Zeroto1}>Toggle the bulb </button>
   </div>
 }
-
-
-
-
-
-
-
-
-
 
 export default App
