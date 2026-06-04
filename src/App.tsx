@@ -1,57 +1,21 @@
-import { createContext, useContext, useState } from 'react'
+import { useState } from 'react'
 
 
-const bulbContext = createContext();
 
-function ContextProvider({children}){
-  const [bulb, setBulb]=useState(true);
+function App(){
+  const [count , setCount ] = useState(0);
 
-    return <bulbContext.Provider value ={{bulb :bulb , setBulb: setBulb}}>
-        {children}                       
-    </bulbContext.Provider>
-}
-
-function App() {
-
-  return (
-    <>
-      <ContextProvider>
-        <LightBulb/>
-      </ContextProvider>
-    </>
-  )
-}
-
-
-function LightBulb(){
-
-  return <div>
-    <BulbState />
-    <ToggleBulbState/>
-
-  </div>
-}
-
-function BulbState(){
-  const obj = useContext(bulbContext);
-  const bulb =  obj.bulb ;
-
-
-  return <div>
-    { bulb ? "bulb is on" : "bulb is off currently"}
-  </div>
-}
-
-function ToggleBulbState(){
-  const {setBulb} = useContext(bulbContext)  /// deconsrtucted and stored the object things
-
-  function Zeroto1(){
-    setBulb( currentState => !currentState)
+  function increaseCount(){
+    setCount(currentValue => currentValue + 1)
   }
-  
-  return <div>
-    <button onClick ={Zeroto1}>Toggle the bulb </button>
-  </div>
+
+
+  return <>
+    <button onClick={increaseCount} >
+      increase {count}
+    </button>
+
+  </>
 }
 
 export default App
