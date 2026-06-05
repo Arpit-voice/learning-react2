@@ -1,28 +1,32 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import usePrev from './hooks/use-prev';
 
-function useCounter(){
-  const [count , setCount ] = useState(0);
+function App() {
+  const [state, setState] = useState(0)
+  console.log("1st step-initial state: " + state) //1st step
+  const prev = usePrev(state); // 2nd step
+  console.log("6th step-initial prev: " + prev)  // 6th step /// :)) dangerous knowledgeee
 
-  function increaseCount(){
-    setCount(currentValue => currentValue + 1)
-  }
 
-  return {
-    count : count ,
-    increaseCount : increaseCount
-  }
-
-}
-
-function App(){
-  const {count ,increaseCount} = useCounter()
+  useEffect(function () {
+    console.log("9th step-useffect of App") // 9th step
+  },[])
 
   return <>
-    <button onClick={increaseCount} >
-      increase {count}
+    <p>{state}</p>
+    <button onClick={() => setState(function (current) {
+      console.log("0th step-updated state: " + (current + 1))  // 0th step
+      return (current + 1)
+    }
+    )}>
+      click me
     </button>
-
+    <script>function (){console.log("hi")}</script>
+    <p>the previous value was {prev} </p>
   </>
-}
 
+}
 export default App
+
+
+/// all useEffects of all components will run in the last in the stack calling way
