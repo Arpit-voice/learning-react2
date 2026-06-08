@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState,memo } from 'react'
 
 function App(){
   return <>
@@ -21,28 +21,37 @@ function Counter(){
   // it all got re-rernder just because its parent re-rendersd
   ///obselete re-rendering of all elements 
   return <div>
-    <CurrentCounter />
+    <MemoizedCurrentCounter/>
     <Increase />
     <Decrease />
   </div>
 }
 
-function CurrentCounter(){
+/// wrap all the function in memo that
+//  u dont want to re-render untill its related props are changed 
+const MemoizedCurrentCounter = memo(function CurrentCounter(){
     return <div>
       1
     </div>
-}
-function Increase(){
+})
+
+const Increase = memo(function(){
   return <>
   <button>Increase</button>
   </>
-}
-function Decrease(){
+})
+
+const Decrease = memo(function Decrease(){
   return <>
   <button>decrease</button>
   </>
-}
+})
 export default App
 
 
 /// all useEffects of all components will run in the last in the stack calling way
+
+
+
+
+//this will only re-render the outer-box 
