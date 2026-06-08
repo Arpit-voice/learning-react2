@@ -1,17 +1,40 @@
 import { useEffect, useRef, useState } from 'react'
-import useDebounce from './hooks/use-debounce';
+
 
 function App() {
-    const InputChangeFn = useDebounce(()=>{
-    fetch("api.amazon.com/search/") /// do something 
-    },500) 
+
 
   return <>
-  <input type="text" placeholder='write something' onChange={InputChangeFn}></input>
+    <Counter/>
   </>
 }
 
+function Counter(){
+  const [count,setCount] = useState(0)
 
+  ///obselete re-rendering of all elements
+  return <div>
+    <CurrentCounter count= {count}/>
+    <Increase setCount= {setCount}/>
+    <Decrease setCount= {setCount}/>
+  </div>
+}
+
+function CurrentCounter({count}){
+    return <div>
+      {count}
+    </div>
+}
+function Increase({setCount}){
+  return <>
+  <button onClick={()=> {setCount(curr => curr + 1)}}>Increase</button>
+  </>
+}
+function Decrease({setCount}){
+  return <>
+  <button onClick={()=> {setCount(curr => curr -1)}}>decrease</button>
+  </>
+}
 export default App
 
 
