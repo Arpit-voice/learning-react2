@@ -3,9 +3,18 @@ import useFetch from './hooks/use-fetch';
 // import useFetch from './hooks/use-fetch';
 
 function App() {
-  const {data} = useFetch("https://jsonplaceholder.typicode.com/todos/1")
+  const [currentPost,setCurrentPost]= useState(1)
+  const {data,loading,retryTime} = useFetch("https://jsonplaceholder.typicode.com/todos/"+ currentPost,5)
+
+  if(loading){
+    return <> loading ...</>
+  }
+
 
   return <>
+    <button onClick={()=>setCurrentPost(1)}>1</button>
+    <button onClick={()=>setCurrentPost(2)}>2</button>
+    <button onClick={()=>setCurrentPost(3)}>3</button>
     {JSON.stringify(data)}
   </>
 }
