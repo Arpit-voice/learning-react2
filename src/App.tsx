@@ -1,19 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
-import usePrev from './hooks/use-prev';
+import useFetch from './hooks/use-fetch';
+// import useFetch from './hooks/use-fetch';
 
 function App() {
-  const [state, setState] = useState(0)
-  const prev = usePrev(state); 
+  const {data} = useFetch("https://jsonplaceholder.typicode.com/todos/1")
 
   return <>
-    <p>{state}</p>
-    <button onClick={() => setState(curr=> curr+1)}>
-      click me
-    </button>
-    <p>the previous value was {prev} </p>
+    {JSON.stringify(data)}
   </>
-
 }
+
+
 export default App
 
 
