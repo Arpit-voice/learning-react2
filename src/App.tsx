@@ -1,22 +1,25 @@
 import { useEffect, useRef, useState } from 'react'
-import { RecoilRoot, useRecoilValue, useSetRecoilState } from 'recoil'
-import { counterAtom } from './store/atoms/counter'
 
-
-function App() {
-
-
+function App(){
   return <>
-  <RecoilRoot>
+    <br></br>
     <Counter/>
-  </RecoilRoot>
   </>
 }
 
 function Counter(){
-  
+  const [state,setState] = useState(0)
 
-  ///obselete re-rendering of all elements
+  useEffect(()=>{
+    setInterval(() => {
+      setState(c=>c+1)
+    }, 3000);
+  },[])
+
+
+  //even though there are no props that are passed to children and no change in props of children 
+  // it all got re-rernder just because its parent re-rendersd
+  ///obselete re-rendering of all elements 
   return <div>
     <CurrentCounter />
     <Increase />
@@ -25,25 +28,18 @@ function Counter(){
 }
 
 function CurrentCounter(){
-  //subscribing to the counterAtom
-  const count = useRecoilValue(counterAtom)
-
     return <div>
-      {count}
+      1
     </div>
 }
 function Increase(){
-  const setCount = useSetRecoilState(counterAtom)
-
   return <>
-  <button onClick={()=> {setCount(curr => curr + 1)}}>Increase</button>
+  <button>Increase</button>
   </>
 }
 function Decrease(){
-  const setCount = useSetRecoilState(counterAtom)
-
   return <>
-  <button onClick={()=> {setCount(curr => curr -1)}}>decrease</button>
+  <button>decrease</button>
   </>
 }
 export default App
