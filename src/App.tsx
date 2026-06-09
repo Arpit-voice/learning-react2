@@ -1,57 +1,37 @@
 import { useEffect, useRef, useState,memo } from 'react'
+import { RecoilRoot, useRecoilValue, useSetRecoilState } from 'recoil'
+import { counterAtom } from './store/atoms/counter'
+import { evenSelector } from './store/selectors/isEven'
 
 function App(){
   return <>
-    <br></br>
-    <Counter/>
+    <RecoilRoot>
+        <Buttons/>
+        <Counter/>
+        <IsEven/>
+    </RecoilRoot>
+  </>
+}
+
+function Buttons(){
+  const setCount = useSetRecoilState(counterAtom)
+  return <>
+  <button onClick ={()=>{setCount(c=>c+2)}}>Increase By 2</button>
+  <button onClick ={()=>{setCount(c=>c-1)}}>decrease By 1</button>
   </>
 }
 
 function Counter(){
-  const [state,setState] = useState(0)
-
-  useEffect(()=>{
-    setInterval(() => {
-      setState(c=>c+1)
-    }, 3000);
-  },[])
-
-
-  //even though there are no props that are passed to children and no change in props of children 
-  // it all got re-rernder just because its parent re-rendersd
-  ///obselete re-rendering of all elements 
+  const count = useRecoilValue(counterAtom)
   return <div>
-    <MemoizedCurrentCounter/>
-    <Increase />
-    <Decrease />
+    {count}
   </div>
 }
 
-/// wrap all the function in memo that
-//  u dont want to re-render untill its related props are changed 
-const MemoizedCurrentCounter = memo(function CurrentCounter(){
-    return <div>
-      1
-    </div>
-})
-
-const Increase = memo(function(){
-  return <>
-  <button>Increase</button>
-  </>
-})
-
-const Decrease = memo(function Decrease(){
-  return <>
-  <button>decrease</button>
-  </>
-})
+function IsEven(){
+  const even = useRecoilValue(evenSelector)
+  return <div>
+    {even ? "Even" : "Odd"}
+  </div>
+}
 export default App
-
-
-/// all useEffects of all components will run in the last in the stack calling way
-
-
-
-
-//this will only re-render the outer-box 
